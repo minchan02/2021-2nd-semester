@@ -14,7 +14,7 @@
 #define _DIST_MAX 400 // [2972] 거리 센서가 인식 가능하게 설정한 최대 거리
 
 // Distance sensor
-#define _DIST_ALPHA 0.5   // [2959] ema 필터에 적용할 알파값
+#define _DIST_ALPHA 0.2   // [2959] ema 필터에 적용할 알파값
 #include "medianfilter.h"
 
 // Servo range
@@ -24,7 +24,7 @@
 
 // Servo speed control
 #define _SERVO_ANGLE 30  //[2967] 서보 각도 설정
-#define _SERVO_SPEED 215 //[2959] 서보의 속도 설정 140 220
+#define _SERVO_SPEED 350 //[2959] 서보의 속도 설정 140 220
 
 // Event periods
 #define _INTERVAL_DIST 4  //[2959] 센서의 거리측정 인터벌값
@@ -34,11 +34,11 @@
 // PID parameters
 #define _KP 1.3// [2957] 비례 제어 값 KP => 1.2 KD => 50
                 // [2961] 비례이득
-#define _KD 45 // 미분 제어 값
+#define _KD 55 // 미분 제어 값
 
 #define _KI 0.005
 
-#define _ITERM_MAX 1
+#define _ITERM_MAX 10
 
 
 #define sizei 5
@@ -80,7 +80,7 @@ float dist_sum = 0.0;
 static long apt = 0; 
 unsigned long oldmil;
 
-int fc = 12; 
+int fc = 11; 
 float dt = _INTERVAL_DIST/1000.0; 
 float lambda = 2*PI*fc*dt;
 float calidist = 0.0, filter_dist = 0.0;
@@ -306,7 +306,7 @@ void loop() {
     Serial.print("IR:");
     Serial.print(dist_ema); 
     Serial.print(",T:");
-    Serial.print(dist_target);
+    Serial.print(_DIST_TARGET);
     Serial.print(",P:");
     Serial.print(map(pterm, -1000, 1000, 510, 610));
     Serial.print(",D:");
